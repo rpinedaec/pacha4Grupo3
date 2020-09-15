@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from ecommapp.models import cupon
+
+class cuponAdmin(admin.ModelAdmin):
+    list_display = ('codigo', 'descripcion', 'descuento' )
+
+admin.site.register(cupon, cuponAdmin)
