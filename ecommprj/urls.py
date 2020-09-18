@@ -16,13 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from ecommapp.views import ProductoViewSet, CategoriaViewSet 
+from ecommapp.views import ProductoViewSet, CategoriaViewSet, CuponViewSet
 #ProductodetalleViewSet
 
 router = routers.DefaultRouter()
 
 router.register(r'producto', ProductoViewSet, basename = 'producto')
 router.register(r'categoria', CategoriaViewSet, basename = 'categoria')
+router.register(r'cupon', CuponViewSet, basename = 'cupon')
 # router.register(r'productodetalle', ProductodetalleViewSet, basename = 'producto')
 
 urlpatterns = [

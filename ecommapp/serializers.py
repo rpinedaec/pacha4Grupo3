@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ecommapp.models import producto, categoria
+from ecommapp.models import producto, categoria, cupon
 from rest_framework import serializers
 
 class ProductoSerializer(serializers.ModelSerializer):
@@ -11,6 +11,11 @@ class ProductoSerializer(serializers.ModelSerializer):
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = categoria
+        fields = '__all__'
+
+class CuponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = cupon
         fields = '__all__'
 
 # class ProductodetalleSerializer(serializers.ModelSerializer): 
