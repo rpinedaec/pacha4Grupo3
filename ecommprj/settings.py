@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'rest_framework',
     'ecommapp'
     
@@ -131,3 +132,11 @@ django_heroku.settings(locals())
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),
 # )
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+AWS_MEDIA_STORAGE_BUCKET_NAME = 'proypacha3static'
+AWS_MEDIA_S3_REGION_NAME = 'us-east-2'
+AWS_MEDIA_ACCESS_KEY_ID = 'AKIA4VMT4HSNJOTRKU7I'
+AWS_MEDIA_SECRET_ACCESS_KEY = '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'
+AWS_MEDIA_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_MEDIA_STORAGE_BUCKET_NAME
+DEFAULT_FILE_STORAGE = 'ecommprj.custom_storages.MediaStorage'
+
