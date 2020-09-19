@@ -2,7 +2,7 @@
 from rest_framework import viewsets
 from ecommapp.serializers import ProductoSerializer, CategoriaSerializer, CuponSerializer 
 #ProductodetalleSerializer
-from ecommapp.models import producto, categoria, cupon
+from ecommapp.models import producto, categoria, cupon,cliente
 #from django_filters.rest_framework import DjangoFilterBackend
 #from rest_framework import filters
 
@@ -46,3 +46,7 @@ class CuponViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(codigo=cupCod)
         return queryset
     serializer_class = CuponSerializer   
+
+    class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = cliente.objects.all()
+    serializer_class = ClienteSerializer
