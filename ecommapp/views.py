@@ -1,6 +1,6 @@
 #from django.shortcuts import render
 from rest_framework import viewsets
-from ecommapp.serializers import ProductoSerializer, CategoriaSerializer, CuponSerializer 
+from ecommapp.serializers import ProductoSerializer, CategoriaSerializer, CuponSerializer, ClienteSerializer 
 #ProductodetalleSerializer
 from ecommapp.models import producto, categoria, cupon,cliente
 #from django_filters.rest_framework import DjangoFilterBackend
@@ -47,6 +47,6 @@ class CuponViewSet(viewsets.ModelViewSet):
         return queryset
     serializer_class = CuponSerializer   
 
-    class ClienteViewSet(viewsets.ModelViewSet):
+class ClienteViewSet(viewsets.ModelViewSet):
     queryset = cliente.objects.all()
     serializer_class = ClienteSerializer
