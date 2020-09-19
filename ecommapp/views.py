@@ -1,8 +1,8 @@
 #from django.shortcuts import render
 from rest_framework import viewsets
-from ecommapp.serializers import ProductoSerializer, CategoriaSerializer, CuponSerializer, ClienteSerializer 
-#ProductodetalleSerializer
-from ecommapp.models import producto, categoria, cupon,cliente
+from ecommapp.serializers import ProductoSerializer, CategoriaSerializer, CuponSerializer
+from ecommapp.serializers import PedidoSerializer, ClienteSerializer
+from ecommapp.models import producto, categoria, cupon, cliente, pedido
 #from django_filters.rest_framework import DjangoFilterBackend
 #from rest_framework import filters
 
@@ -45,8 +45,25 @@ class CuponViewSet(viewsets.ModelViewSet):
         if cupCod is not None:
             queryset = queryset.filter(codigo=cupCod)
         return queryset
-    serializer_class = CuponSerializer   
+    serializer_class = CuponSerializer
+
+# class ClienteViewSet(viewsets.ModelViewSet):
+#     queryset = cliente.objects.filter()
+#     serializer_class = ClienteSerializer
 
 class ClienteViewSet(viewsets.ModelViewSet):
-    queryset = cliente.objects.all()
+    def get_queryset(self):
+        queryset = cliente.objects.filter()
+        cliUname = self.request.query_params.get('username',None)
+        cliPass = self.request.query_params.get('password',None)
+        # cliId = self.request.query_params.get('id',None)
+        if cliUname is not None:
+            queryset = queryset.filter(username=cliUname, password=cliPass)
+        # if cliId is not None:
+        #     queryset = queryset.filter(id=cliId)
+        return queryset
     serializer_class = ClienteSerializer
+
+class PedidoViewSet(viewsets.ModelViewSet):
+    queryset = pedido.objects.all()
+    serializer_class = PedidoSerializer

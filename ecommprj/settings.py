@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     'rest_framework',
-    'ecommapp'
-    
+    'ecommapp',
+    #'drf-yasg',
 ]
 
 MIDDLEWARE = [
