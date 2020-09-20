@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from ecommapp.models import cupon, producto, categoria, pedido, detalle_pedido, cliente
+from ecommapp.models import estado_pedido
 
 class cuponAdmin(admin.ModelAdmin):
     list_display = ('codigo', 'descripcion', 'descuento' )
@@ -26,3 +27,13 @@ class pedidoAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'subtotal', 'igv', 'total', 'cliente', 'estado', 'cupon' )
 
 admin.site.register(pedido, pedidoAdmin)
+
+class detallePedidoAdmin(admin.ModelAdmin):
+    list_display = ('pedido', 'producto', 'cantidad', 'subtotal' )
+
+admin.site.register(detalle_pedido, detallePedidoAdmin)
+
+class estadoPedidoAdmin(admin.ModelAdmin):
+    field = ('descripcion' )
+
+admin.site.register(estado_pedido, estadoPedidoAdmin)

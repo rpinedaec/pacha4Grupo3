@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from ecommapp.models import producto, categoria, cupon, cliente, pedido, detalle_pedido
+from ecommapp.models import estado_pedido
 from rest_framework import serializers
 
 class ProductoSerializer(serializers.ModelSerializer):
@@ -28,4 +29,12 @@ class PedidoSerializer(serializers.ModelSerializer):
         model = pedido
         fields = '__all__'
 
- 
+class detallePedidoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = detalle_pedido
+        fields = '__all__'
+
+class estadoPedidoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = estado_pedido
+        fields = '__all__'
