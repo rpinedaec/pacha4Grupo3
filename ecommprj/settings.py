@@ -42,12 +42,14 @@ INSTALLED_APPS = [
     'storages',
     'rest_framework',
     'ecommapp',
+    'corsheaders',
     #'drf-yasg',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -139,4 +141,6 @@ AWS_MEDIA_ACCESS_KEY_ID = 'AKIA4VMT4HSNJOTRKU7I'
 AWS_MEDIA_SECRET_ACCESS_KEY = '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'
 AWS_MEDIA_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_MEDIA_STORAGE_BUCKET_NAME
 DEFAULT_FILE_STORAGE = 'ecommprj.custom_storages.MediaStorage'
+
+CORS_ORIGIN_ALLOW_ALL = True
 
