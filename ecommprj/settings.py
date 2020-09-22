@@ -143,4 +143,3 @@ AWS_MEDIA_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_MEDIA_STORAGE_BUCKET_NA
 DEFAULT_FILE_STORAGE = 'ecommprj.custom_storages.MediaStorage'
 
 CORS_ORIGIN_ALLOW_ALL = True
-
