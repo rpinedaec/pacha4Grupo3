@@ -35,6 +35,7 @@ class producto(models.Model):
     igv = models.BooleanField(default=True)
     #imagen = models.ImageField(upload_to = 'productos')
     imagen = models.FileField()
+    imagen_card = models.FileField(blank=True, null=True)
     precio = models.DecimalField(max_digits=10,decimal_places=2)
     descuento = models.DecimalField(max_digits=10,decimal_places=2)
     def __str__(self):

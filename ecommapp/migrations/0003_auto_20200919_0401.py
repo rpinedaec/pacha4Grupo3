@@ -14,5 +14,5 @@ class Migration(migrations.Migration):
             model_name='producto',
             name='imagen',
             field=models.FileField(upload_to=''),
-        ),
+        ), 
     ]
