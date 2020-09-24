@@ -15,16 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
-from ecommapp import views
 from rest_framework import routers
+from ecommapp.views import ProductoViewSet, CategoriaViewSet, CuponViewSet, PedidoViewSet
+from ecommapp.views import ClienteViewSet, detallePedidoViewSet, estadoPedidoViewSet
+from ecommapp.views import getPedido, loginCliente
+from django.conf.urls import url
 
 router = routers.DefaultRouter()
 
-#En el router vamos añadiendo los endpoints a los viewsets
-router.register('detalle',views.DetalleViewSet)
+router.register(r'producto', ProductoViewSet, basename = 'producto')
+router.register(r'categoria', CategoriaViewSet, basename = 'categoria')
+router.register(r'cupon', CuponViewSet, basename = 'cupon')
+router.register(r'cliente', ClienteViewSet, basename = 'cliente')
+router.register(r'estado_pedido', estadoPedidoViewSet, basename = 'estado_pedido')
+router.register(r'pedido', PedidoViewSet, basename = 'pedido')
+router.register(r'detalle_pedido', detallePedidoViewSet, basename = 'detalle_pedido')
 
 urlpatterns = [
-    path('apidetalle/v1/',include(router.urls)),
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'getPedido', getPedido),
+    url(r'loginCliente', loginCliente)
 ]
