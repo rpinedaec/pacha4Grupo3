@@ -128,6 +128,12 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
+REST_FRAMEWORK = {
+  'DEFAULT_PERMISSION_CLASSES': [                     
+    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+  ],
+}
+
 django_heroku.settings(locals())
 
 #se agrego esto para probar

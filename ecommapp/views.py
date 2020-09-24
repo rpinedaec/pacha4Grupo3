@@ -31,12 +31,20 @@ class ProductoViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(nombre=prodNom)
         if prodId is not None:
             queryset = queryset.filter(id=prodId)
+        if not queryset:
+            ProductoSerializer.retrieve(self, queryset)
         return queryset
+
     serializer_class = ProductoSerializer
 
 class CategoriaViewSet(viewsets.ModelViewSet):
-    #queryset = categoria.objects.all()
-    queryset = categoria.objects.filter()
+    def get_queryset(self):
+        #queryset = categoria.objects.all()
+        queryset = categoria.objects.filter()
+        if not queryset:
+            CategoriaSerializer.retrieve(self, queryset)
+        return queryset
+    
     serializer_class = CategoriaSerializer
 
 # class CuponViewSet(viewsets.ModelViewSet):
@@ -46,9 +54,12 @@ class CategoriaViewSet(viewsets.ModelViewSet):
 class CuponViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = cupon.objects.filter()
+        serializer = CuponSerializer(queryset, many=True)
         cupCod = self.request.query_params.get('codigo',None)
         if cupCod is not None:
             queryset = queryset.filter(codigo=cupCod)
+        if not queryset:
+            CuponSerializer.retrieve(self, queryset)
         return queryset
     serializer_class = CuponSerializer
 
@@ -72,6 +83,8 @@ class PedidoViewSet(viewsets.ModelViewSet):
         clieId = self.request.query_params.get('cliente',None)
         if clieId is not None:
             queryset = queryset.filter(cliente=clieId)
+        if not queryset:
+            PedidoSerializer.retrieve(self, queryset)
         return queryset
     serializer_class = PedidoSerializer
 
@@ -82,6 +95,15 @@ class detallePedidoViewSet(viewsets.ModelViewSet):
         if pedId is not None:
             queryset = queryset.filter(pedido=pedId)
         return queryset
+    def post(self, request):
+        pedId = self.request.query_params.get('pedido',None)
+        if pedId is not None:
+            queryset = pedido.objects.all()
+            queryset = queryset.filter(id=pedId)
+        if not queryset:
+            detallePedidoSerializer.validate(self, queryset)
+        detallePedidoSerializer.save()
+        return JsonResponse({"data": list(queryset), "error": False})
     serializer_class = detallePedidoSerializer
 
 class estadoPedidoViewSet(viewsets.ModelViewSet):
@@ -101,7 +123,7 @@ def getPedido(request):
                 querysetDet = detalle_pedido.objects.all().values()
                 querysetDet = querysetDet.filter(pedido=idPedido)
             else:
-                return JsonResponse({"data": "Pedido no existe", "error": True})
+                return JsonResponse({"data": "No existe Pedido", "error": True})
         except Exception as e:
             return JsonResponse({"data": e, "error": True})
 
