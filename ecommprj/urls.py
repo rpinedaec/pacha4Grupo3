@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from ecommapp.views import ProductoViewSet, CategoriaViewSet, CuponViewSet, PedidoViewSet
-from ecommapp.views import ClienteViewSet, detallePedidoViewSet, estadoPedidoViewSet
+from ecommapp.views import ClienteViewSet, detallePedidoViewSet, estadoPedidoViewSet, payCulqi
 from ecommapp.views import getPedido, loginCliente
 from django.conf.urls import url
 
@@ -36,5 +36,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'getPedido', getPedido),
-    url(r'loginCliente', loginCliente)
+    url(r'loginCliente', loginCliente),
+    url(r'payCulqi', payCulqi)
 ]
