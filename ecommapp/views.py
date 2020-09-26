@@ -76,13 +76,14 @@ class ClienteViewSet(viewsets.ModelViewSet):
 
 # class ClienteViewSet(viewsets.ModelViewSet):
 #     def get_queryset(self):
-#         queryset = cliente.objects.filter()
-#         cliUname = self.request.query_params.get('username',None)
-#         cliPass = self.request.query_params.get('password',None)
-#         if cliUname is not None:
-#             queryset = queryset.filter(username=cliUname, password=cliPass)
+#         queryset = cliente.objects.all()
+#         serializer_class = ClienteSerializer
 #         return queryset
-#     serializer_class = ClienteSerializer
+#     def post(self, request):        
+#         #queryset = cliente.objects.filter()
+#
+
+   
 
 class PedidoViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated,]
@@ -160,3 +161,48 @@ def loginCliente(request):
             return JsonResponse({"data": e, "error": True})
 
     return JsonResponse({"cliente": list(queryset), "error": False})
+
+@csrf_exempt
+def payCulqi(request):
+    # public_key = 'pk_test_9ca4ec28bf0f3c27'
+    # private_key = 'sk_test_c4f109e5cf1e1161'
+    if request.method == 'POST':
+
+        head = ""
+        data = ""
+        charge = ""
+
+        if request.POST:
+            token = request.POST['token']
+            installments = request.POST['installments']
+            pedido = int(request.POST['idPedido'])
+            email = request.POST['email']
+            monto = int(request.POST['monto'])
+            descripcion = 'Pago de curso online'
+            moneda = request.POST['moneda']
+            private_key = 'sk_test_c4f109e5cf1e1161'
+
+        #if private_key is not None:
+            head = {'Authorization': 'Bearer' + private_key}
+
+        #if monto > 0 and moneda is not None and token is not None and installments is not None and descripcion is not None:
+            data = {
+                'amount': monto,
+                'currency_code': moneda,
+                'email': email,
+                'source_id': token,
+                'installments': installments,
+                'metada': {'Descripcion': descripcion}
+            }
+        
+        url = 'https://api.culqi.com/v2/charges'
+
+        if data is not None and head is not None:
+            # charge = request.post(url, json=data, headers=head)
+            # logger.debug(charge.json())
+            # dicRes = {'message':'EXITO'}
+            # return JsonResponse(charge.json(), safe = False)
+            return JsonResponse({"data": "data charge", "error": True})
+        else:
+            return JsonResponse({"data": "No se tiene info pago", "error": True})
+    return JsonResponse({"data": "only POST method", "error": False})

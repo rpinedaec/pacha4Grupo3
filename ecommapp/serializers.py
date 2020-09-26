@@ -32,6 +32,11 @@ class CuponSerializer(serializers.ModelSerializer):
         model = cupon
         fields = '__all__'
 
+# class ClienteSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = cliente
+#         fields = '__all__'
+
 class ClienteSerializer(serializers.ModelSerializer):
     def retrieve(self, data):
         if not data:
