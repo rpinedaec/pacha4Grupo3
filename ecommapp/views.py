@@ -15,6 +15,10 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.shortcuts import render
+import requests
+
+import pprint
 
 # Create your views here.
 # class ProductoViewSet(viewsets.ModelViewSet):
@@ -75,15 +79,16 @@ class ClienteViewSet(viewsets.ModelViewSet):
     serializer_class = ClienteSerializer
 
 # class ClienteViewSet(viewsets.ModelViewSet):
-#     def get_queryset(self):
-#         queryset = cliente.objects.all()
-#         serializer_class = ClienteSerializer
-#         return queryset
-#     def post(self, request):        
-#         #queryset = cliente.objects.filter()
-#
+#     queryset = cliente.objects.filter()
+#     serializer_class = ClienteSerializer
 
-   
+class ClienteViewSet(viewsets.ModelViewSet):
+    def get_queryset(self):
+        queryset = cliente.objects.all()
+        return queryset   
+        # jsonData = json.loads(request.body)
+        # clieEmail = jsonData["email"]
+    serializer_class = ClienteSerializer
 
 class PedidoViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated,]
@@ -143,6 +148,8 @@ def getPedido(request):
     return JsonResponse({"pedido": list(queryset), "detalle": list(querysetDet), "error": False})
 
 #@csrf_exempt
+#@route('/loginCliente', methods=['POST'])
+@csrf_exempt
 def loginCliente(request):
     #permission_classes = [IsAuthenticated,]
     queryset = cliente.objects.all().values()
@@ -162,47 +169,49 @@ def loginCliente(request):
 
     return JsonResponse({"cliente": list(queryset), "error": False})
 
+class Pasarela(object):
+    def __init__(self, amount, currency_code, email, source_id):
+        self.amount = amount
+        self.currency_code = currency_code
+        self.email = email
+        self.source_id = source_id
+ 
+class PasarelaEncoder(json.JSONEncoder):
+    def default(self, obj):
+        return obj.__dict__
+
+def payment(request):
+    return render(request, "payment/index.html")
+
 @csrf_exempt
 def payCulqi(request):
-    # public_key = 'pk_test_9ca4ec28bf0f3c27'
-    # private_key = 'sk_test_c4f109e5cf1e1161'
+
     if request.method == 'POST':
 
-        head = ""
-        data = ""
-        charge = ""
+        token = request.POST['token']
+        installments = request.POST['installments']
+        pedido = int(request.POST['idPedido'])
+        email = request.POST['email']
+        monto = int(request.POST['monto'])
+        descrpcion = 'Pago pachaqtec curso online'
+        moneda = request.POST['moneda']
 
-        if request.POST:
-            token = request.POST['token']
-            installments = request.POST['installments']
-            pedido = int(request.POST['idPedido'])
-            email = request.POST['email']
-            monto = int(request.POST['monto'])
-            descripcion = 'Pago de curso online'
-            moneda = request.POST['moneda']
-            private_key = 'sk_test_c4f109e5cf1e1161'
+        auth_token='sk_test_c4f109e5cf1e1161'
+        hed = {'Authorization': 'Bearer ' + auth_token}
+        data = {
+            'amount': monto,
+            'currency_code': moneda,
+            'email': email,
+            'source_id':token,
+            'installments':installments,
+            'metadata':{'Descripcion': descrpcion}
+        }
 
-        #if private_key is not None:
-            head = {'Authorization': 'Bearer' + private_key}
-
-        #if monto > 0 and moneda is not None and token is not None and installments is not None and descripcion is not None:
-            data = {
-                'amount': monto,
-                'currency_code': moneda,
-                'email': email,
-                'source_id': token,
-                'installments': installments,
-                'metada': {'Descripcion': descripcion}
-            }
-        
         url = 'https://api.culqi.com/v2/charges'
+        charge = requests.post(url, json=data, headers=hed)
+        print(charge)
+        #logger.debug(charge)
+        dicRes = {'message':'EXITO'}
+        return JsonResponse(charge.json(), safe=False)
 
-        if data is not None and head is not None:
-            # charge = request.post(url, json=data, headers=head)
-            # logger.debug(charge.json())
-            # dicRes = {'message':'EXITO'}
-            # return JsonResponse(charge.json(), safe = False)
-            return JsonResponse({"data": "data charge", "error": True})
-        else:
-            return JsonResponse({"data": "No se tiene info pago", "error": True})
-    return JsonResponse({"data": "only POST method", "error": False})
+    return JsonResponse("only POST method", safe=False)

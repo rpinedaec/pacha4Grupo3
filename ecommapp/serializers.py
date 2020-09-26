@@ -38,12 +38,26 @@ class CuponSerializer(serializers.ModelSerializer):
 #         fields = '__all__'
 
 class ClienteSerializer(serializers.ModelSerializer):
+    emailCli = serializers.EmailField
     def retrieve(self, data):
         if not data:
             raise serializers.ValidationError({"data": "No existen clientes", "error": True})
+    # def validate(self, data):
+    #     data["email"]  #self.initial_data["email"]
     class Meta:
         model = cliente
-        fields = '__all__' 
+        fields = '__all__'
+    def create(self, data):
+        emailCli = data["email"]
+        queryset = cliente.objects.all()
+        queryset = queryset.filter(email=emailCli)
+        if queryset:
+            raise serializers.ValidationError({"data": "Cliente ya está registrado", "error": True})
+        else:
+            objCliente = cliente.objects.create(**data)
+            return objCliente
+    # def save(self):
+    #     raise serializers.ValidationError({"data": "Cliente se actualiza o registra", "error": False})
 
 class PedidoSerializer(serializers.ModelSerializer):
     def retrieve(self, data):
