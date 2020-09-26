@@ -20,13 +20,14 @@ class categoria(models.Model):
     def __str__(self):
         return self.nombre
 
+
 class cliente(models.Model):
-    username = models.CharField(max_length=200)
+    #username = models.CharField(max_length=200) 
     nombre = models.CharField(max_length=200)
-    email = models.EmailField()
+    email = models.EmailField(blank=False,unique=True)
     password = models.CharField(max_length=200)
     def __str__(self):
-        return self.username
+        return self.email
 
 class producto(models.Model):
     nombre = models.CharField(max_length=200)

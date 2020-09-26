@@ -20,6 +20,7 @@ from ecommapp.views import ProductoViewSet, CategoriaViewSet, CuponViewSet, Pedi
 from ecommapp.views import ClienteViewSet, detallePedidoViewSet, estadoPedidoViewSet, payCulqi
 from ecommapp.views import getPedido, loginCliente, payment
 from django.conf.urls import url
+from rest_framework_simplejwt import views as jwt_views
 
 router = routers.DefaultRouter()
 
@@ -37,8 +38,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'getPedido', getPedido),
     url(r'loginCliente', loginCliente),
-    #url(r'^payCulqi', payCulqi),
-    #url(r'^payment', payment)
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^payCulqi/', payCulqi, name='payCulqi'),
     url(r'^payment/', payment, name='payment')
 ]

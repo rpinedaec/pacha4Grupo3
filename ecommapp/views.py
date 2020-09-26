@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -26,7 +27,9 @@ import pprint
 #     queryset = producto.objects.all()
 #     serializer_class = ProductoSerializer
 
+#@csrf_exempt
 class ProductoViewSet(viewsets.ModelViewSet):
+    #permission_classes = [IsAuthenticated,]
     def get_queryset(self):
         queryset = producto.objects.all()
         prodNom = self.request.query_params.get('nombre',None)
@@ -42,6 +45,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
     serializer_class = ProductoSerializer
 
 class CategoriaViewSet(viewsets.ModelViewSet):
+    #permission_classes = [IsAuthenticated,]
     def get_queryset(self):
         #queryset = categoria.objects.all()
         queryset = categoria.objects.filter()
@@ -55,7 +59,9 @@ class CategoriaViewSet(viewsets.ModelViewSet):
 #     queryset = cupon.objects.filter()
 #     serializer_class = CuponSerializer
 
+#@csrf_exemptr
 class CuponViewSet(viewsets.ModelViewSet):
+    #permission_classes = [IsAuthenticated,]
     def get_queryset(self):
         queryset = cupon.objects.filter()
         serializer = CuponSerializer(queryset, many=True)
@@ -66,6 +72,11 @@ class CuponViewSet(viewsets.ModelViewSet):
             CuponSerializer.retrieve(self, queryset)
         return queryset
     serializer_class = CuponSerializer
+
+class ClienteViewSet(viewsets.ModelViewSet):
+    #permission_classes = [IsAuthenticated,]
+    queryset = cliente.objects.filter()
+    serializer_class = ClienteSerializer
 
 # class ClienteViewSet(viewsets.ModelViewSet):
 #     queryset = cliente.objects.filter()
@@ -80,6 +91,7 @@ class ClienteViewSet(viewsets.ModelViewSet):
     serializer_class = ClienteSerializer
 
 class PedidoViewSet(viewsets.ModelViewSet):
+    #permission_classes = [IsAuthenticated,]
     def get_queryset(self):
         queryset = pedido.objects.all()
         clieId = self.request.query_params.get('cliente',None)
@@ -91,6 +103,7 @@ class PedidoViewSet(viewsets.ModelViewSet):
     serializer_class = PedidoSerializer
 
 class detallePedidoViewSet(viewsets.ModelViewSet):
+    #permission_classes = [IsAuthenticated,]
     def get_queryset(self):
         queryset = detalle_pedido.objects.all()
         pedId = self.request.query_params.get('pedido',None)
@@ -109,11 +122,13 @@ class detallePedidoViewSet(viewsets.ModelViewSet):
     serializer_class = detallePedidoSerializer
 
 class estadoPedidoViewSet(viewsets.ModelViewSet):
+    #permission_classes = [IsAuthenticated,]
     queryset = estado_pedido.objects.all()
     serializer_class = estadoPedidoSerializer
 
-@csrf_exempt
+#@csrf_exempt
 def getPedido(request):
+    #permission_classes = [IsAuthenticated,]
     queryset = pedido.objects.all().values()
     if request.method == 'POST':
         try:
@@ -132,9 +147,11 @@ def getPedido(request):
     #return JsonResponse({"mensaje": "ok"})
     return JsonResponse({"pedido": list(queryset), "detalle": list(querysetDet), "error": False})
 
-@csrf_exempt
+#@csrf_exempt
 #@route('/loginCliente', methods=['POST'])
+@csrf_exempt
 def loginCliente(request):
+    #permission_classes = [IsAuthenticated,]
     queryset = cliente.objects.all().values()
     if request.method == 'POST':
         try:
