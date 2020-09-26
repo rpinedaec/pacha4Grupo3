@@ -19,7 +19,8 @@ class categoriaAdmin(admin.ModelAdmin):
 admin.site.register(categoria, categoriaAdmin)
 
 class clienteAdmin(admin.ModelAdmin):
-    list_display = ('username', 'nombre', 'email', 'password' )
+    #list_display = ('username', 'nombre', 'email', 'password' )
+    list_display = ('nombre', 'email', 'password' )
 
 admin.site.register(cliente, clienteAdmin)
 

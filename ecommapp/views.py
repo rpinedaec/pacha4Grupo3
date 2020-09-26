@@ -79,16 +79,12 @@ class ClienteViewSet(viewsets.ModelViewSet):
     serializer_class = ClienteSerializer
 
 # class ClienteViewSet(viewsets.ModelViewSet):
-#     queryset = cliente.objects.filter()
+#     def get_queryset(self):
+#         queryset = cliente.objects.all()
+#         return queryset   
+#         # jsonData = json.loads(request.body)
+#         # clieEmail = jsonData["email"]
 #     serializer_class = ClienteSerializer
-
-class ClienteViewSet(viewsets.ModelViewSet):
-    def get_queryset(self):
-        queryset = cliente.objects.all()
-        return queryset   
-        # jsonData = json.loads(request.body)
-        # clieEmail = jsonData["email"]
-    serializer_class = ClienteSerializer
 
 class PedidoViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated,]
@@ -168,17 +164,6 @@ def loginCliente(request):
             return JsonResponse({"data": e, "error": True})
 
     return JsonResponse({"cliente": list(queryset), "error": False})
-
-class Pasarela(object):
-    def __init__(self, amount, currency_code, email, source_id):
-        self.amount = amount
-        self.currency_code = currency_code
-        self.email = email
-        self.source_id = source_id
- 
-class PasarelaEncoder(json.JSONEncoder):
-    def default(self, obj):
-        return obj.__dict__
 
 def payment(request):
     return render(request, "payment/index.html")

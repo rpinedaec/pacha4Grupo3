@@ -47,15 +47,15 @@ class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = cliente
         fields = '__all__'
-    def create(self, data):
-        emailCli = data["email"]
-        queryset = cliente.objects.all()
-        queryset = queryset.filter(email=emailCli)
-        if queryset:
-            raise serializers.ValidationError({"data": "Cliente ya está registrado", "error": True})
-        else:
-            objCliente = cliente.objects.create(**data)
-            return objCliente
+    # def create(self, data):
+    #     emailCli = data["email"]
+    #     queryset = cliente.objects.all()
+    #     queryset = queryset.filter(email=emailCli)
+    #     if queryset:
+    #         raise serializers.ValidationError({"data": "Cliente ya está registrado", "error": True})
+    #     else:
+    #         objCliente = cliente.objects.create(**data)
+    #         return objCliente
     # def save(self):
     #     raise serializers.ValidationError({"data": "Cliente se actualiza o registra", "error": False})
 

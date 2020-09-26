@@ -44,7 +44,7 @@ function culqi() {
       // Imprimir Token
       $.ajax({
          type: 'POST',
-         url: '/payCulqi/',
+         url: 'https://backendhackatonfinal.herokuapp.com/payCulqi/',
          data: { 
             csrfmiddlewaretoken: '{{ csrf_token }}', 
             token: Culqi.token.id, 
