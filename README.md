@@ -15,14 +15,14 @@
  - Documentación y ejercicios similares al reto
  - Repositorio grupal por proyecto
 	 1. BackEnd
-		 - https://github.com/rpinedaec/pacha4Grupo1.git
+		 - https://github.com/rpinedaec/pacha4Grupo2.git
 		 - Participantes:
-		 	- bruce.porras@PachaQTec.edu.pe
-			- denisse.garcia@PachaQTec.edu.pe
-			- **paola.sanchez@PachaQTec.edu.pe**
+		 	- braulio.berlanga@PachaQTec.edu.pe
+			- fiorella.milla@PachaQTec.edu.pe
+			- **bryan.arias@PachaQTec.edu.pe**
 
 	 2. FrontEnd
-		 - https://github.com/rpinedaec/pacha4Grupo1.git
+		 - https://github.com/rpinedaec/pacha4Grupo2.git
 
 **Herramientas Colaborativas:**
  - Control de versiones GitLab/GitHub
