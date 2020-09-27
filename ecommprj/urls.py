@@ -14,8 +14,32 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from ecommapp.views import ProductoViewSet, CategoriaViewSet, CuponViewSet, PedidoViewSet
+from ecommapp.views import ClienteViewSet, detallePedidoViewSet, estadoPedidoViewSet, payCulqi
+from ecommapp.views import getPedido, loginCliente, payment
+from django.conf.urls import url
+from rest_framework_simplejwt import views as jwt_views
+
+router = routers.DefaultRouter()
+
+router.register(r'producto', ProductoViewSet, basename = 'producto')
+router.register(r'categoria', CategoriaViewSet, basename = 'categoria')
+router.register(r'cupon', CuponViewSet, basename = 'cupon')
+router.register(r'cliente', ClienteViewSet, basename = 'cliente')
+router.register(r'estado_pedido', estadoPedidoViewSet, basename = 'estado_pedido')
+router.register(r'pedido', PedidoViewSet, basename = 'pedido')
+router.register(r'detalle_pedido', detallePedidoViewSet, basename = 'detalle_pedido')
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'getPedido', getPedido),
+    url(r'loginCliente', loginCliente),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    url(r'^payCulqi/', payCulqi, name='payCulqi'),
+    url(r'^payment/', payment, name='payment')
 ]
